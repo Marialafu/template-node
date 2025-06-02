@@ -30,13 +30,14 @@ app.get('/write', (req, res) => {
   fs.readFile(usersFilePath, (error, data) => {
     if (error) return res.status(500).send('Error al leer el archivo');
     const jsonData = JSON.parse(data);
+    const jsonNewUser = JSON.parse(newUser)
 
-    const jsonNewData = [...jsonData, newUser];
-    console.log(jsonNewData);
-    // fs.writeFile(usersFilePath, jsonNewData, error => {
-    //   if (error) return res.status(500).send('Error al leer el archivo');
+    const jsonNewData = [...jsonData, jsonNewUser];
 
-    //   res.end();
-    // });
+    fs.writeFile(usersFilePath, JSON.stringify(jsonNewData), error => {
+      if (error) return res.status(500).send('Error al leer el archivo');
+
+      res.end();
+    });
   });
 });
